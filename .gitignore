@@ -132,3 +132,6 @@ work_dirs/
 # avoid soft links created by MIM
 mmaction/configs/*
 mmaction/tools/*
+extern
+demo/gym_samples
+demo/configs

@@ -84,7 +84,7 @@ test_pipeline = [
     dict(type='ToTensor', keys=['imgs'])
 ]
 data = dict(
-    videos_per_gpu=16,
+    videos_per_gpu=8,
     workers_per_gpu=2,
     test_dataloader=dict(videos_per_gpu=1),
     train=dict(
@@ -103,9 +103,12 @@ data = dict(
         data_prefix='',
         pipeline=test_pipeline))
 # optimizer
+# optimizer = dict(
+#     type='SGD', lr=0.2, momentum=0.9,
+#     weight_decay=0.0003)  # this lr is used for 8 gpus
 optimizer = dict(
     type='SGD', lr=0.2, momentum=0.9,
-    weight_decay=0.0003)  # this lr is used for 8 gpus
+    weight_decay=0.0003)  # this lr is used for 4 gpus
 optimizer_config = dict(grad_clip=dict(max_norm=40, norm_type=2))
 # learning policy
 lr_config = dict(policy='CosineAnnealing', by_epoch=False, min_lr=0)
@@ -120,6 +123,17 @@ log_config = dict(
     interval=20, hooks=[
         dict(type='TextLoggerHook'),
     ])
+# total_epochs = 24
+# checkpoint_config = dict(interval=1)
+# workflow = [('train', 1)]
+# evaluation = dict(
+#     interval=1,
+#     metrics=['top_k_accuracy', 'mean_class_accuracy'],
+#     topk=(1, 5))
+# log_config = dict(
+#     interval=2, hooks=[
+#         dict(type='TextLoggerHook'),
+#     ])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/posec3d/slowonly_r50_u48_240e_gym_keypoint'
