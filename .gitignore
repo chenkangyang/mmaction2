@@ -136,3 +136,4 @@ extern
 demo/gym_samples
 demo/configs
 demo/*.mp4
+mmaction/.mim
