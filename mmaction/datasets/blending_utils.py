@@ -6,14 +6,19 @@ from torch.distributions.beta import Beta
 
 from .builder import BLENDINGS
 
-__all__ = ['BaseMiniBatchBlending', 'MixupBlending', 'CutmixBlending']
+__all__ = ['BaseMiniBatchBlending', 'MixupBlending', 'CutmixBlending', 'LabelSmoothing']
 
+def one_hot(x, num_classes, on_value=1., off_value=0., device='cuda'):
+    x = x.long().view(-1, 1)
+    return torch.full((x.size()[0], num_classes), off_value, device=device).scatter_(1, x, on_value)
 
 class BaseMiniBatchBlending(metaclass=ABCMeta):
     """Base class for Image Aliasing."""
 
-    def __init__(self, num_classes):
+    def __init__(self, num_classes, smoothing=0.):
         self.num_classes = num_classes
+        self.off_value = smoothing / self.num_classes
+        self.on_value = 1. - smoothing + self.off_value
 
     @abstractmethod
     def do_blending(self, imgs, label, **kwargs):
@@ -47,8 +52,9 @@ class BaseMiniBatchBlending(metaclass=ABCMeta):
                 the shape of (B, 1, num_classes) and all elements are in range
                 [0, 1].
         """
-        one_hot_label = F.one_hot(label, num_classes=self.num_classes)
-
+        # one_hot_label = F.one_hot(label, num_classes=self.num_classes)
+        one_hot_label = one_hot(label, num_classes=self.num_classes, on_value=self.on_value, off_value=self.off_value, device=label.device)
+        
         mixed_imgs, mixed_label = self.do_blending(imgs, one_hot_label,
                                                    **kwargs)
 
@@ -68,8 +74,8 @@ class MixupBlending(BaseMiniBatchBlending):
         alpha (float): Parameters for Beta distribution.
     """
 
-    def __init__(self, num_classes, alpha=.2):
-        super().__init__(num_classes=num_classes)
+    def __init__(self, num_classes, alpha=.2, smoothing=0.):
+        super().__init__(num_classes=num_classes, smoothing=smoothing)
         self.beta = Beta(alpha, alpha)
 
     def do_blending(self, imgs, label, **kwargs):
@@ -99,8 +105,8 @@ class CutmixBlending(BaseMiniBatchBlending):
         alpha (float): Parameters for Beta distribution.
     """
 
-    def __init__(self, num_classes, alpha=.2):
-        super().__init__(num_classes=num_classes)
+    def __init__(self, num_classes, alpha=.2, smoothing=0.):
+        super().__init__(num_classes=num_classes, smoothing=smoothing)
         self.beta = Beta(alpha, alpha)
 
     @staticmethod
@@ -139,4 +145,9 @@ class CutmixBlending(BaseMiniBatchBlending):
 
         label = lam * label + (1 - lam) * label[rand_index, :]
 
+        return imgs, label
+
+@BLENDINGS.register_module()
+class LabelSmoothing(BaseMiniBatchBlending):
+    def do_blending(self, imgs, label, **kwargs):
         return imgs, label

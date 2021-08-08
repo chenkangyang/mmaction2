@@ -135,3 +135,4 @@ mmaction/tools/*
 extern
 demo/gym_samples
 demo/configs
+demo/*.mp4
