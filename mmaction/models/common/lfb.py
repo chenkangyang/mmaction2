@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import io
 import os.path as osp
 import warnings
@@ -99,7 +100,7 @@ class LFB:
                 warnings.warn(
                     'If distributed training is used with multi-GPUs, lfb '
                     'will be loaded multiple times on RAM. In this case, '
-                    "'lmdb' is recomended.", UserWarning)
+                    "'lmdb' is recommended.", UserWarning)
             self.load_lfb('cpu')
         elif self.device == 'lmdb':
             assert lmdb_imported, (

@@ -66,21 +66,25 @@ test_pipeline = [
 
 data = dict(
     videos_per_gpu=4,
-    workers_per_gpu=4,
+    workers_per_gpu=2,
+    test_dataloader=dict(videos_per_gpu=1),
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,
         data_prefix=data_root,
+        filename_tmpl='{:05}.jpg',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         ann_file=ann_file_val,
         data_prefix=data_root_val,
+        filename_tmpl='{:05}.jpg',
         pipeline=val_pipeline),
     test=dict(
         type=dataset_type,
         ann_file=ann_file_test,
         data_prefix=data_root_val,
+        filename_tmpl='{:05}.jpg',
         pipeline=test_pipeline))
 
 evaluation = dict(

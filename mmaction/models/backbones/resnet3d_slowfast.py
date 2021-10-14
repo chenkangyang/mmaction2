@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import warnings
 
 import torch
@@ -214,7 +215,7 @@ class ResNet3dPathway(ResNet3d):
 
         Args:
             logger (logging.Logger): The logger used to print
-                debugging infomation.
+                debugging information.
         """
 
         state_dict_r2d = _load_checkpoint(self.pretrained)
@@ -471,7 +472,7 @@ class ResNet3dSlowFast(nn.Module):
             # Directly load 3D model.
             load_checkpoint(self, self.pretrained, strict=True, logger=logger)
         elif self.pretrained is None:
-            # Init two branch seperately.
+            # Init two branch separately.
             self.fast_path.init_weights()
             self.slow_path.init_weights()
         else:

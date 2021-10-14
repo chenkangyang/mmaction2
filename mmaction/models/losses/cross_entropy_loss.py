@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import torch
 import torch.nn.functional as F
 
@@ -57,6 +58,7 @@ class CrossEntropyLoss(BaseWeightedLoss):
 
             lsm = F.log_softmax(cls_score, 1)
             if self.class_weight is not None:
+                self.class_weight = self.class_weight.to(cls_score.device)
                 lsm = lsm * self.class_weight.unsqueeze(0)
             loss_cls = -(label * lsm).sum(1)
 

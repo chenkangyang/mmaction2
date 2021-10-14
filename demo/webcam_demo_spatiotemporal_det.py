@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 """Webcam Spatio-Temporal Action Detection Demo.
 
 Some codes are based on https://github.com/facebookresearch/SlowFast
@@ -82,7 +83,9 @@ def parse_args():
         type=str,
         help='webcam id or input video file/url')
     parser.add_argument(
-        '--label-map', default='demo/label_map_ava.txt', help='label map file')
+        '--label-map',
+        default='tools/data/ava/label_map.txt',
+        help='label map file')
     parser.add_argument(
         '--device', type=str, default='cuda:0', help='CPU/CUDA device option')
     parser.add_argument(
@@ -157,7 +160,7 @@ class TaskInfo:
         self.processed_frames = None  # model inputs
         self.frames_inds = None  # select frames from processed frames
         self.img_shape = None  # model inputs, processed frame shape
-        # `action_preds` is `list[list[tuple]]`. The outter brackets indicate
+        # `action_preds` is `list[list[tuple]]`. The outer brackets indicate
         # different bboxes and the intter brackets indicate different action
         # results for the same bbox. tuple contains `class_name` and `score`.
         self.action_preds = None  # stdet results
@@ -330,7 +333,7 @@ class StdetPredictor:
                                            result[class_id][bbox_id, 4]))
 
         # update task
-        # `preds` is `list[list[tuple]]`. The outter brackets indicate
+        # `preds` is `list[list[tuple]]`. The outer brackets indicate
         # different bboxes and the intter brackets indicate different action
         # results for the same bbox. tuple contains `class_name` and `score`.
         task.add_action_preds(preds)

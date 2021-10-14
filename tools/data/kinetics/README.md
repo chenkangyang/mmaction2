@@ -18,11 +18,14 @@
 For basic dataset information, please refer to the official [website](https://deepmind.com/research/open-source/open-source-datasets/kinetics/). The scripts can be used for preparing kinetics400, kinetics600, kinetics700. To prepare different version of kinetics, you need to replace `${DATASET}` in the following examples with the specific dataset name. The choices of dataset names are `kinetics400`, `kinetics600` and `kinetics700`.
 Before we start, please make sure that the directory is located at `$MMACTION2/tools/data/${DATASET}/`.
 
-**Note**: Because of the expirations of some YouTube links, the sizes of kinetics dataset copies may be different. Here are the sizes of our kinetics dataset copies that used to train all checkpoints.
+:::{note}
+Because of the expirations of some YouTube links, the sizes of kinetics dataset copies may be different. Here are the sizes of our kinetics dataset copies that used to train all checkpoints.
 
 | Dataset | training videos | validation videos |
 | :---------------:|:---------------:|:---------------:|
 | kinetics400 | 240436 | 19796 |
+
+:::
 
 ## Step 1. Prepare Annotations
 
@@ -63,7 +66,7 @@ For better decoding speed, you can resize the original videos into smaller sized
 python ../resize_videos.py ../../../data/${DATASET}/videos_train/ ../../../data/${DATASET}/videos_train_256p_dense_cache --dense --level 2
 ```
 
-You can also download from [Academic Torrents](https://academictorrents.com/) ([kinetics400](https://academictorrents.com/details/184d11318372f70018cf9a72ef867e2fb9ce1d26) & [kinetics700](https://academictorrents.com/details/49f203189fb69ae96fb40a6d0e129949e1dfec98) with short edge 256 pixels are avaiable) and [cvdfoundation/kinetics-dataset](https://github.com/cvdfoundation/kinetics-dataset) (Host by Common Visual Data Foundation and Kinetics400/Kinetics600/Kinetics-700-2020 are available)
+You can also download from [Academic Torrents](https://academictorrents.com/) ([kinetics400](https://academictorrents.com/details/184d11318372f70018cf9a72ef867e2fb9ce1d26) & [kinetics700](https://academictorrents.com/details/49f203189fb69ae96fb40a6d0e129949e1dfec98) with short edge 256 pixels are available) and [cvdfoundation/kinetics-dataset](https://github.com/cvdfoundation/kinetics-dataset) (Host by Common Visual Data Foundation and Kinetics400/Kinetics600/Kinetics-700-2020 are available)
 
 ## Step 3. Extract RGB and Flow
 

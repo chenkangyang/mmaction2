@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import argparse
 
 import mmcv
@@ -159,7 +160,7 @@ if __name__ == '__main__':
 
     checkpoint = load_checkpoint(model, args.checkpoint, map_location='cpu')
 
-    # conver model to onnx file
+    # convert model to onnx file
     pytorch2onnx(
         model,
         args.shape,

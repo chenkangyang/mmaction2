@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import numpy as np
 import pytest
 import torch
@@ -5,7 +6,8 @@ from mmcv.parallel import DataContainer as DC
 from mmcv.utils import assert_dict_has_keys
 
 from mmaction.datasets.pipelines import (Collect, FormatAudioShape,
-                                         FormatShape, ImageToTensor, Rename,
+                                         FormatGCNInput, FormatShape,
+                                         ImageToTensor, Rename,
                                          ToDataContainer, ToTensor, Transpose)
 
 
@@ -27,7 +29,7 @@ def test_to_tensor():
         results = dict(str='0')
         to_tensor(results)
 
-    # convert tensor, numpy, squence, int, float to tensor
+    # convert tensor, numpy, sequence, int, float to tensor
     target_keys = ['tensor', 'numpy', 'sequence', 'int', 'float']
     to_tensor = ToTensor(target_keys)
     original_results = dict(
@@ -192,3 +194,34 @@ def test_format_audio_shape():
     assert format_shape(results)['input_shape'] == (3, 1, 128, 8)
     assert repr(format_shape) == format_shape.__class__.__name__ + \
         "(input_format='NCTF')"
+
+
+def test_format_gcn_input():
+    with pytest.raises(ValueError):
+        # invalid input format
+        FormatGCNInput('XXXX')
+
+    # 'NCTVM' input format
+    results = dict(
+        keypoint=np.random.randn(2, 300, 17, 2),
+        keypoint_score=np.random.randn(2, 300, 17))
+    format_shape = FormatGCNInput('NCTVM', num_person=2)
+    assert format_shape(results)['input_shape'] == (3, 300, 17, 2)
+    assert repr(format_shape) == format_shape.__class__.__name__ + \
+        "(input_format='NCTVM')"
+
+    # test real num_person < 2
+    results = dict(
+        keypoint=np.random.randn(1, 300, 17, 2),
+        keypoint_score=np.random.randn(1, 300, 17))
+    assert format_shape(results)['input_shape'] == (3, 300, 17, 2)
+    assert repr(format_shape) == format_shape.__class__.__name__ + \
+        "(input_format='NCTVM')"
+
+    # test real num_person > 2
+    results = dict(
+        keypoint=np.random.randn(3, 300, 17, 2),
+        keypoint_score=np.random.randn(3, 300, 17))
+    assert format_shape(results)['input_shape'] == (3, 300, 17, 2)
+    assert repr(format_shape) == format_shape.__class__.__name__ + \
+        "(input_format='NCTVM')"

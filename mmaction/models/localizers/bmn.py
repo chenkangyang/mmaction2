@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import math
 
 import numpy as np
@@ -157,7 +158,7 @@ class BMN(BaseTAPGenerator):
         Args:
             tmin_offset (int): Offset for the minimum value of temporal anchor.
                 Default: 0.
-            tmax_offset (int): Offset for the maximun value of temporal anchor.
+            tmax_offset (int): Offset for the maximum value of temporal anchor.
                 Default: 1.
 
         Returns:

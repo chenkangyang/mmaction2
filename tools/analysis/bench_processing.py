@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 """This file is for benchmark dataloading process. The command line to run this
 file is:
 
@@ -44,6 +45,7 @@ def main():
         dataset,
         videos_per_gpu=cfg.data.videos_per_gpu,
         workers_per_gpu=0,
+        persistent_workers=False,
         num_gpus=1,
         dist=False)
 

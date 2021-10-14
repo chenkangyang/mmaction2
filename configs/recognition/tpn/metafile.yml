@@ -1,6 +1,9 @@
 Collections:
 - Name: TPN
   README: configs/recognition/tpn/README.md
+  Paper:
+    URL: https://arxiv.org/abs/2004.03548
+    Title: Temporal Pyramid Network for Action Recognition
 Models:
 - Config: configs/recognition/tpn/tpn_slowonly_r50_8x8x1_150e_kinetics_rgb.py
   In Collection: TPN
@@ -66,7 +69,7 @@ Models:
   - Dataset: SthV1
     Metrics:
       Top 1 Accuracy: 50.8
-      top5 accuracy: 79.05
+      Top 5 Accuracy: 79.05
     Task: Action Recognition
   Training Json Log: https://download.openmmlab.com/mmaction/recognition/tpn/tpn_tsm_r50_1x1x8_150e_sthv1_rgb/20210311_162636.log.json
   Training Log: https://download.openmmlab.com/mmaction/recognition/tpn/tpn_tsm_r50_1x1x8_150e_sthv1_rgb/20210311_162636.log

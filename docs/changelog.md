@@ -1,6 +1,68 @@
 ## Changelog
 
-### Master
+### 0.19.0 (07/10/2021)
+
+**Highlights**
+
+- Support ST-GCN
+- Refactor the inference API
+- Add code spell check hook
+
+**New Features**
+
+- Support ST-GCN ([#1123](https://github.com/open-mmlab/mmaction2/pull/1123))
+
+**Improvement**
+
+- Add label maps for every dataset ([#1127](https://github.com/open-mmlab/mmaction2/pull/1127))
+- Remove useless code MultiGroupCrop ([#1180](https://github.com/open-mmlab/mmaction2/pull/1180))
+- Refactor Inference API ([#1191](https://github.com/open-mmlab/mmaction2/pull/1191))
+- Add code spell check hook ([#1208](https://github.com/open-mmlab/mmaction2/pull/1208))
+- Use docker in CI ([#1159](https://github.com/open-mmlab/mmaction2/pull/1159))
+
+**Documentations**
+
+- Update metafiles to new OpenMMLAB protocols ([#1134](https://github.com/open-mmlab/mmaction2/pull/1134))
+- Switch to new doc style ([#1160](https://github.com/open-mmlab/mmaction2/pull/1160))
+- Improve the ERROR message ([#1203](https://github.com/open-mmlab/mmaction2/pull/1203))
+- Fix invalid URL in getting_started ([#1169](https://github.com/open-mmlab/mmaction2/pull/1169))
+
+**Bug and Typo Fixes**
+
+- Compatible with new MMClassification ([#1139](https://github.com/open-mmlab/mmaction2/pull/1139))
+- Add missing runtime dependencies ([#1144](https://github.com/open-mmlab/mmaction2/pull/1144))
+- Fix THUMOS tag proposals path ([#1156](https://github.com/open-mmlab/mmaction2/pull/1156))
+- Fix LoadHVULabel ([#1194](https://github.com/open-mmlab/mmaction2/pull/1194))
+- Switch the default value of `persistent_workers` to False ([#1202](https://github.com/open-mmlab/mmaction2/pull/1202))
+- Fix `_freeze_stages` for MobileNetV2 ([#1193](https://github.com/open-mmlab/mmaction2/pull/1193))
+- Fix resume when building rawframes ([#1150](https://github.com/open-mmlab/mmaction2/pull/1150))
+- Fix device bug for class weight ([#1188](https://github.com/open-mmlab/mmaction2/pull/1188))
+- Correct Arg names in extract_audio.py ([#1148](https://github.com/open-mmlab/mmaction2/pull/1148))
+
+**ModelZoo**
+
+- Add TSM-MobileNetV2 ported from TSM ([#1163](https://github.com/open-mmlab/mmaction2/pull/1163))
+- Add ST-GCN for NTURGB+D-XSub-60 ([#1123](https://github.com/open-mmlab/mmaction2/pull/1123))
+
+### 0.18.0 (02/09/2021)
+
+**Improvement**
+
+- Add CopyRight ([#1099](https://github.com/open-mmlab/mmaction2/pull/1099))
+- Support NTU Pose Extraction ([#1076](https://github.com/open-mmlab/mmaction2/pull/1076))
+- Support Caching in RawFrameDecode ([#1078](https://github.com/open-mmlab/mmaction2/pull/1078))
+- Add citations & Support python3.9 CI & Use fixed-version sphinx ([#1125](https://github.com/open-mmlab/mmaction2/pull/1125))
+
+**Documentations**
+
+- Add Descriptions of PoseC3D dataset ([#1053](https://github.com/open-mmlab/mmaction2/pull/1053))
+
+**Bug and Typo Fixes**
+
+- Fix SSV2 checkpoints ([#1101](https://github.com/open-mmlab/mmaction2/pull/1101))
+- Fix CSN normalization ([#1116](https://github.com/open-mmlab/mmaction2/pull/1116))
+- Fix typo ([#1121](https://github.com/open-mmlab/mmaction2/pull/1121))
+- Fix new_crop_quadruple bug ([#1108](https://github.com/open-mmlab/mmaction2/pull/1108))
 
 ### 0.17.0 (03/08/2021)
 
@@ -19,7 +81,7 @@
 
 - Remove redundant augmentations in config files ([#996](https://github.com/open-mmlab/mmaction2/pull/996))
 - Make resource directory to hold common resource pictures ([#1011](https://github.com/open-mmlab/mmaction2/pull/1011))
-- Remove deperecated FrameSelector ([#1010](https://github.com/open-mmlab/mmaction2/pull/1010))
+- Remove deprecated FrameSelector ([#1010](https://github.com/open-mmlab/mmaction2/pull/1010))
 - Support Concat Dataset ([#1000](https://github.com/open-mmlab/mmaction2/pull/1000))
 - Add `to-mp4` option to resize_videos.py ([#1021](https://github.com/open-mmlab/mmaction2/pull/1021))
 - Add option to keep tail frames ([#1050](https://github.com/open-mmlab/mmaction2/pull/1050))

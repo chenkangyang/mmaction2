@@ -7,11 +7,11 @@ model = dict(backbone=dict(pretrained=None, in_channels=2, with_pool2=False))
 
 # dataset settings
 dataset_type = 'RawframeDataset'
-data_root = 'data/gym/subaction_frames'
-data_root_val = 'data/gym/subaction_frames'
-ann_file_train = 'data/gym/annotations/gym99_train_frame.txt'
-ann_file_val = 'data/gym/annotations/gym99_val_frame.txt'
-ann_file_test = 'data/gym/annotations/gym99_val_frame.txt'
+data_root = 'data/gym/rawframes'
+data_root_val = 'data/gym/rawframes'
+ann_file_train = 'data/gym/annotations/gym99_train_list_rawframes.txt'
+ann_file_val = 'data/gym/annotations/gym99_val_list_rawframes.txt'
+ann_file_test = 'data/gym/annotations/gym99_val_list_rawframes.txt'
 img_norm_cfg = dict(mean=[128, 128], std=[128, 128])
 train_pipeline = [
     dict(type='SampleFrames', clip_len=4, frame_interval=16, num_clips=1),
@@ -57,7 +57,8 @@ test_pipeline = [
 ]
 data = dict(
     videos_per_gpu=24,
-    workers_per_gpu=4,
+    workers_per_gpu=2,
+    test_dataloader=dict(videos_per_gpu=1),
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,

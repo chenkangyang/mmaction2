@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import argparse
 import os
 import os.path as osp
@@ -109,7 +110,7 @@ def main():
         assert output_file.endswith('.pkl')
         length = int(length)
 
-        # prepare a psuedo sample
+        # prepare a pseudo sample
         tmpl = dict(
             frame_dir=frame_dir,
             total_frames=length,

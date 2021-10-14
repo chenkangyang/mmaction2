@@ -1,5 +1,8 @@
+decord
+einops
 matplotlib
 numpy
 opencv-contrib-python
 Pillow
 einops
+scipy

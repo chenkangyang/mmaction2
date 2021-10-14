@@ -136,4 +136,9 @@ extern
 demo/gym_samples
 demo/configs
 demo/*.mp4
+
+*.ipynb
+
+# unignore ipython notebook files in demo
+!demo/*.ipynb
 mmaction/.mim

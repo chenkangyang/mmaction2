@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import argparse
 import time
 
@@ -42,6 +43,7 @@ def main():
         dataset,
         videos_per_gpu=1,
         workers_per_gpu=cfg.data.workers_per_gpu,
+        persistent_workers=cfg.data.get('persistent_workers', False),
         dist=False,
         shuffle=False)
 

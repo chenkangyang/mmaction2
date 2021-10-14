@@ -20,23 +20,23 @@ model = dict(
         dropout_ratio=0.5,
         init_std=0.01,
         multi_class=True,
-        label_smooth_eps=0))
-# model training and testing settings
-train_cfg = None
-test_cfg = dict(average_clips=None)
+        label_smooth_eps=0),
+    train_cfg=None,
+    test_cfg=dict(average_clips=None))
 
 # dataset settings
-dataset_type = 'RawframeDataset'
-data_root = 'data/mmit/rawframes'
-data_root_val = '/data/mmit/rawframes'
-ann_file_train = 'data/mmit/mmit_train_rawframes.txt'
-ann_file_val = 'data/mmit/mmit_val_rawframes.txt'
-ann_file_test = 'data/mmit/mmit_val_rawframes.txt'
+dataset_type = 'VideoDataset'
+data_root = 'data/mmit/videos'
+data_root_val = '/data/mmit/videos'
+ann_file_train = 'data/mmit/mmit_train_list_videos.txt'
+ann_file_val = 'data/mmit/mmit_val_list_videos.txt'
+ann_file_test = 'data/mmit/mmit_val_list_videos.txt'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_bgr=False)
 train_pipeline = [
+    dict(type='DecordInit'),
     dict(type='SampleFrames', clip_len=1, frame_interval=1, num_clips=5),
-    dict(type='RawFrameDecode'),
+    dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 256)),
     dict(
         type='MultiScaleCrop',
@@ -52,13 +52,14 @@ train_pipeline = [
     dict(type='ToTensor', keys=['imgs', 'label'])
 ]
 val_pipeline = [
+    dict(type='DecordInit'),
     dict(
         type='SampleFrames',
         clip_len=1,
         frame_interval=1,
         num_clips=5,
         test_mode=True),
-    dict(type='RawFrameDecode'),
+    dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 256)),
     dict(type='CenterCrop', crop_size=224),
     dict(type='Normalize', **img_norm_cfg),
@@ -67,15 +68,16 @@ val_pipeline = [
     dict(type='ToTensor', keys=['imgs'])
 ]
 test_pipeline = [
+    dict(type='DecordInit'),
     dict(
         type='SampleFrames',
         clip_len=1,
         frame_interval=1,
         num_clips=5,
         test_mode=True),
-    dict(type='RawFrameDecode'),
+    dict(type='DecordDecode'),
     dict(type='Resize', scale=(-1, 256)),
-    dict(type='MultiGroupCrop', crop_size=256, groups=1),
+    dict(type='CenterCrop', crop_size=256),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='FormatShape', input_format='NCHW'),
     dict(type='Collect', keys=['imgs', 'label'], meta_keys=[]),
@@ -84,7 +86,8 @@ test_pipeline = [
 
 data = dict(
     videos_per_gpu=16,
-    workers_per_gpu=4,
+    workers_per_gpu=2,
+    test_dataloader=dict(videos_per_gpu=1),
     train=dict(
         type=dataset_type,
         ann_file=ann_file_train,

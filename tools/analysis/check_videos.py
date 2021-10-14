@@ -1,3 +1,4 @@
+# Copyright (c) OpenMMLab. All rights reserved.
 import argparse
 import os
 import warnings
@@ -126,7 +127,7 @@ if __name__ == '__main__':
 
     # prepare for checking
     if os.path.exists(args.output_file):
-        # remove exsiting output file
+        # remove existing output file
         os.remove(args.output_file)
     pool = Pool(args.num_processes)
     lock = Manager().Lock()
