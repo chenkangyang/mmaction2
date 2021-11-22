@@ -5,7 +5,7 @@ import glob
 import json
 import os
 import os.path as osp
-
+from ipdb import set_trace as st
 
 def parse_directory(path,
                     rgb_prefix='img_',
@@ -67,7 +67,6 @@ def parse_directory(path,
         total_num = count_files(frame_dir,
                                 (rgb_prefix, flow_x_prefix, flow_y_prefix))
         dir_name = locate_directory(frame_dir)
-
         num_x = total_num[1]
         num_y = total_num[2]
         if num_x != num_y:
@@ -352,7 +351,6 @@ def parse_kinetics_splits(level, dataset):
             video = f'{x[1]}_{int(float(x[2])):06d}_{int(float(x[3])):06d}'
             label = -1  # label unknown
             return video, label
-
         video = f'{x[1]}_{int(float(x[2])):06d}_{int(float(x[3])):06d}'
         if level == 2:
             video = f'{convert_label(x[0])}/{video}'
@@ -360,7 +358,38 @@ def parse_kinetics_splits(level, dataset):
             assert level == 1
         label = class_mapping[convert_label(x[0])]
         return video, label
+    
+    def kytrain_line_to_map(x):
+        """A function to map line string to video and label.
+        #* 训练集
+        Args:
+            x (str): A single line from Kinetics csv file. 类别名，视频名，开始帧，结束帧，
+            test (bool): Indicate whether the line comes from test
+                annotation file.
 
+        Returns:
+            tuple[str, str]: (video, label), video is the video id,
+                label is the video label.
+        """
+        # video = f'{x[1]}_{int(float(x[2]))}_{int(float(x[3]))}' #! 视频名，开始帧，结束帧，
+        video = f'{x[1]}' #! 视频名
+        if level == 2:
+            video = f'{convert_label(x[0])}/{video}'
+        else:
+            assert level == 1
+        label = class_mapping[convert_label(x[0])]
+        return video, label
+    
+    def kyval_line_to_map(x):
+        video = f'{x[1]}_{int(float(x[2]))}_{int(float(x[3]) - float(x[2]))}' #! 视频名，开始帧，持续时长
+        if level == 2:
+            video = f'{convert_label(x[0])}/{video}'
+        else:
+            assert level == 1
+        label = class_mapping[convert_label(x[0])]
+        return video, label
+    
+    
     train_file = f'data/{dataset}/annotations/kinetics_train.csv'
     val_file = f'data/{dataset}/annotations/kinetics_val.csv'
     test_file = f'data/{dataset}/annotations/kinetics_test.csv'
@@ -374,16 +403,15 @@ def parse_kinetics_splits(level, dataset):
 
     csv_reader = csv.reader(open(train_file))
     next(csv_reader)
-    train_list = [line_to_map(x) for x in csv_reader]
+    train_list = [kytrain_line_to_map(x) for x in csv_reader]
 
     csv_reader = csv.reader(open(val_file))
     next(csv_reader)
-    val_list = [line_to_map(x) for x in csv_reader]
+    val_list = [kyval_line_to_map(x) for x in csv_reader]
 
     csv_reader = csv.reader(open(test_file))
     next(csv_reader)
     test_list = [line_to_map(x, test=True) for x in csv_reader]
-
     splits = ((train_list, val_list, test_list), )
     return splits
 

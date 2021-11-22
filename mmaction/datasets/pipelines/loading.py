@@ -1343,6 +1343,7 @@ class RawFrameDecode:
                 raise NotImplementedError
 
         results['imgs'] = imgs
+        results['keyframe'] = imgs[len(imgs)//2]
         results['original_shape'] = imgs[0].shape[:2]
         results['img_shape'] = imgs[0].shape[:2]
 

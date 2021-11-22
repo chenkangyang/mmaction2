@@ -7,6 +7,7 @@ from .i3d_head import I3DHead
 from .lfb_infer_head import LFBInferHead
 from .misc_head import ACRNHead
 from .roi_head import AVARoIHead
+from .videtr_head import ViDETRObjHead, ViDETRActHead
 from .slowfast_head import SlowFastHead
 from .ssn_head import SSNHead
 from .stgcn_head import STGCNHead
@@ -21,5 +22,5 @@ __all__ = [
     'TSNHead', 'I3DHead', 'BaseHead', 'TSMHead', 'SlowFastHead', 'SSNHead',
     'TPNHead', 'AudioTSNHead', 'X3DHead', 'BBoxHeadAVA', 'AVARoIHead',
     'FBOHead', 'LFBInferHead', 'TRNHead', 'TimeSformerHead', 'ACRNHead',
-    'STGCNHead'
+    'STGCNHead', 'ViDETRObjHead', 'ViDETRActHead'
 ]

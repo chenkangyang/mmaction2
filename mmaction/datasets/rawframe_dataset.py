@@ -7,6 +7,7 @@ import torch
 from .base import BaseDataset
 from .builder import DATASETS
 
+from ipdb import set_trace as st
 
 @DATASETS.register_module()
 class RawframeDataset(BaseDataset):
@@ -142,6 +143,8 @@ class RawframeDataset(BaseDataset):
                     idx += 1
                 # idx for label[s]
                 label = [int(x) for x in line_split[idx:]]
+                if ('data/kinetics400/rawframes_val' in frame_dir) or ('data/kinetics400/rawframes_train' in frame_dir):
+                    continue
                 assert label, f'missing label in line: {line}'
                 if self.multi_class:
                     assert self.num_classes is not None
@@ -156,7 +159,7 @@ class RawframeDataset(BaseDataset):
     def prepare_train_frames(self, idx):
         """Prepare the frames for training given the index."""
         results = copy.deepcopy(self.video_infos[idx])
-        results['filename_tmpl'] = self.filename_tmpl
+        results['filename_tmpl'] = 'image_{:05}.jpg'
         results['modality'] = self.modality
         results['start_index'] = self.start_index
 

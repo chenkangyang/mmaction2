@@ -13,6 +13,8 @@ HEADS = MODELS
 RECOGNIZERS = MODELS
 LOSSES = MODELS
 LOCALIZERS = MODELS
+VIDETR_ACTOR_ENCODER = MODELS
+
 
 try:
     from mmdet.models.builder import DETECTORS, build_detector
@@ -90,3 +92,6 @@ def build_model(cfg, train_cfg=None, test_cfg=None):
 def build_neck(cfg):
     """Build neck."""
     return NECKS.build(cfg)
+
+def build_videtr_actor_encoder(cfg):
+    return VIDETR_ACTOR_ENCODER.build(cfg)

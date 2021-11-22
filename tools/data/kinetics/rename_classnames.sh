@@ -9,20 +9,40 @@ else
         exit 0
 fi
 
+# cd ../../../data/${DATASET}/
+# ls ./videos_train | while read class; do \
+#   newclass=`echo $class | tr " " "_" `;
+#   if [ "${class}" != "${newclass}" ]
+#   then
+#     mv "videos_train/${class}" "videos_train/${newclass}";
+#   fi
+# done
+
+# ls ./videos_val | while read class; do \
+#   newclass=`echo $class | tr " " "_" `;
+#   if [ "${class}" != "${newclass}" ]
+#   then
+#     mv "videos_val/${class}" "videos_val/${newclass}";
+#   fi
+# done
+
+# cd ../../tools/data/${DATASET}/
+
+
 cd ../../../data/${DATASET}/
-ls ./videos_train | while read class; do \
+ls ./rawframes_train | while read class; do \
   newclass=`echo $class | tr " " "_" `;
   if [ "${class}" != "${newclass}" ]
   then
-    mv "videos_train/${class}" "videos_train/${newclass}";
+    mv "rawframes_train/${class}" "rawframes_train/${newclass}";
   fi
 done
 
-ls ./videos_val | while read class; do \
+ls ./rawframes_val | while read class; do \
   newclass=`echo $class | tr " " "_" `;
   if [ "${class}" != "${newclass}" ]
   then
-    mv "videos_val/${class}" "videos_val/${newclass}";
+    mv "rawframes_val/${class}" "rawframes_val/${newclass}";
   fi
 done
 

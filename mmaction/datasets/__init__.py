@@ -4,6 +4,7 @@ from .audio_dataset import AudioDataset
 from .audio_feature_dataset import AudioFeatureDataset
 from .audio_visual_dataset import AudioVisualDataset
 from .ava_dataset import AVADataset
+from .ava_dataset_for_videtr import AVADatasetForViDETR
 from .base import BaseDataset
 from .blending_utils import (BaseMiniBatchBlending, CutmixBlending,
                              MixupBlending, LabelSmoothing)
@@ -24,5 +25,5 @@ __all__ = [
     'HVUDataset', 'AudioDataset', 'AudioFeatureDataset', 'ImageDataset',
     'RawVideoDataset', 'AVADataset', 'AudioVisualDataset',
     'BaseMiniBatchBlending', 'CutmixBlending', 'MixupBlending', 'LabelSmoothing', 'DATASETS',
-    'PIPELINES', 'BLENDINGS', 'PoseDataset', 'ConcatDataset'
+    'PIPELINES', 'BLENDINGS', 'PoseDataset', 'ConcatDataset', 'AVADatasetForViDETR'
 ]

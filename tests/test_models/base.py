@@ -61,7 +61,8 @@ def generate_recognizer_demo_inputs(
 
 def generate_detector_demo_inputs(
         input_shape=(1, 3, 4, 224, 224), num_classes=81, train=True,
-        device='cpu'):
+        device='cpu', single_stage=False, keyframe_pos = 'center'):
+    assert keyframe_pos in ['center', 'head', 'tail']
     num_samples = input_shape[0]
     if not train:
         assert num_samples == 1
@@ -87,20 +88,104 @@ def generate_detector_demo_inputs(
     if device == 'cuda':
         img = img.cuda()
 
-    proposals = [random_box(2) for i in range(num_samples)]
+    if not single_stage:
+        proposals = [random_box(2) for i in range(num_samples)]
     gt_bboxes = [random_box(2) for i in range(num_samples)]
     gt_labels = [random_label(2) for i in range(num_samples)]
-    img_metas = [dict(img_shape=input_shape[-2:]) for i in range(num_samples)]
+    img_metas = [dict(img_shape=input_shape[-2:], keyframe_pos=keyframe_pos) for i in range(num_samples)]
 
     if train:
-        return dict(
-            img=img,
-            proposals=proposals,
-            gt_bboxes=gt_bboxes,
-            gt_labels=gt_labels,
-            img_metas=img_metas)
+        if not single_stage:
+            return dict(
+                img=img,
+                proposals=proposals,
+                gt_bboxes=gt_bboxes,
+                gt_labels=gt_labels,
+                img_metas=img_metas)
+        else:
+            return dict(
+                img=img,
+                gt_bboxes=gt_bboxes,
+                gt_labels=gt_labels,
+                img_metas=img_metas)
+    
+    if not single_stage:
+        return dict(img=[img], proposals=[proposals] if not single_stage else None, img_metas=[img_metas])
+    else:
+        return dict(img=[img], img_metas=[img_metas])
 
-    return dict(img=[img], proposals=[proposals], img_metas=[img_metas])
+
+def generate_videtr_demo_inputs(
+        input_shape=(1, 3, 4, 224, 224), keyframe_shape=(1, 800, 1344), num_act_classes=81, num_obj_classes=4, train=True,
+        device='cpu', single_stage=False, keyframe_pos = 'center'):
+    assert keyframe_pos in ['center', 'head', 'tail']
+    num_samples = input_shape[0]
+    if not train:
+        assert num_samples == 1
+
+    def random_box(n):
+        box = torch.rand(n, 4) * 0.5
+        box[:, 2:] += 0.5
+        box[:, 0::2] *= input_shape[3]
+        box[:, 1::2] *= input_shape[4]
+        if device == 'cuda':
+            box = box.cuda()
+        return box
+    
+    def random_label(n):
+        label = torch.randint(high=num_obj_classes, size=(n,))
+        return label
+    
+    def random_multi_label(n): # for multi_label
+        label = torch.randn(n, num_act_classes)
+        label = (label > 0.8).type(torch.float32)
+        label[:, 0] = 0
+        if device == 'cuda':
+            label = label.cuda()
+        return label
+
+    clip = torch.FloatTensor(np.random.random(input_shape))
+    keyframe = torch.FloatTensor(np.random.random(keyframe_shape))
+    if device == 'cuda':
+        clip = clip.cuda()
+        keyframe = keyframe.cuda()
+    img = clip
+    
+    if not single_stage:
+        proposals = [random_box(2) for i in range(num_samples)]
+    
+    gt_obj_bboxes = [random_box(4) for i in range(num_samples)]
+    gt_obj_labels = [random_label(4) for i in range(num_samples)]
+    
+    gt_act_bboxes = [random_box(2) for i in range(num_samples)]
+    gt_act_labels = [random_multi_label(2) for i in range(num_samples)]
+    
+    img_metas = [dict(img_shape=input_shape[-2:]) for i in range(num_samples)]
+    clip_metas = [dict(clip_space_shape=input_shape[-2:], keyframe_shape=keyframe_shape[-2:], keyframe_pos=keyframe_pos,) for i in range(num_samples)]
+
+    if train:
+        if not single_stage:
+            return dict(
+                img=img,
+                proposals=proposals,
+                gt_bboxes=gt_obj_bboxes,
+                gt_labels=gt_obj_labels,
+                img_metas=img_metas)
+        else:
+            return dict(
+                clip=clip,
+                keyframe=keyframe,
+                gt_obj_bboxes=gt_obj_bboxes,
+                gt_obj_labels=gt_obj_labels,
+                gt_act_bboxes=gt_act_bboxes,
+                gt_act_labels=gt_act_labels,
+                clip_metas=clip_metas)
+    
+    if not single_stage:
+        return dict(img=[img], proposals=[proposals], img_metas=[img_metas])
+    else:
+        return dict(clip=[clip], keyframe=[keyframe], clip_metas=[clip_metas])
+    
 
 
 def generate_gradcam_inputs(input_shape=(1, 3, 3, 224, 224), model_type='2D'):

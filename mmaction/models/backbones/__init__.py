@@ -16,10 +16,10 @@ from .tanet import TANet
 from .timesformer import TimeSformer
 from .x3d import X3D
 from .swin_transformer import SwinTransformer3D
-
+from .videtr_encoder import ViDETREncoder, ACFormer
 __all__ = [
     'C3D', 'ResNet', 'ResNet3d', 'ResNetTSM', 'ResNet2Plus1d',
     'ResNet3dSlowFast', 'ResNet3dSlowOnly', 'ResNet3dCSN', 'ResNetTIN', 'X3D',
     'ResNetAudio', 'ResNet3dLayer', 'MobileNetV2TSM', 'MobileNetV2', 'TANet',
-    'TimeSformer', 'SwinTransformer3D', 'STGCN'
+    'TimeSformer', 'SwinTransformer3D', 'STGCN', 'ACFormer', 'ViDETREncoder'
 ]

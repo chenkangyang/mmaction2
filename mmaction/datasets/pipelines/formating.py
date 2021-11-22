@@ -422,3 +422,36 @@ class FormatGCNInput:
         repr_str = self.__class__.__name__
         repr_str += f"(input_format='{self.input_format}')"
         return repr_str
+
+
+
+@PIPELINES.register_module()
+class FormatViDETRInput:
+    """Rename the key in results.
+
+    Args:
+        mapping (dict): The keys in results that need to be renamed. The key of
+            the dict is the original name, while the value is the new name. If
+            the original name not found in results, do nothing.
+            Default: dict().
+    """
+
+    def __init__(self):
+        pass
+
+    def __call__(self, results):
+        original_args = ['imgs', 'gt_labels', 'keyframe', 'keyframe_shape', 'keyframe_gt_person_bboxes', 'keyframe_gt_person_labels', 'keyframe_scale_factor', 'keyframe_gt_person_bboxes_xyxy_wo_norm']
+        
+        for args in original_args:
+            assert args in results
+        keep = np.ones(results['gt_bboxes'].shape[0], dtype=bool)
+        if 'keyframe_gt_keepinds_after_crop' in results:
+            keep = results['keyframe_gt_keepinds_after_crop']
+        results['clip'] = results['imgs']
+        results['keyframe'] = results['keyframe']
+        results['gt_obj_bboxes'] = results['keyframe_gt_person_bboxes_xyxy_wo_norm']
+        results['gt_obj_labels'] = results['keyframe_gt_person_labels']
+        results['gt_act_bboxes'] = results['keyframe_gt_person_bboxes_xyxy_wo_norm']
+        results['gt_act_labels'] = results['gt_labels'][keep]
+            
+        return results

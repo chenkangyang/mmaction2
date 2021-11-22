@@ -4,6 +4,7 @@ import glob
 import json
 import os.path as osp
 import random
+from ipdb import set_trace as st
 
 from mmcv.runner import set_random_seed
 from tools.data.anno_txt2json import lines2dictlist
@@ -91,7 +92,7 @@ def build_file_list(splits, frame_info, shuffle=False):
 
     Args:
         splits (tuple): Data split to generate file list.
-        frame_info (dict): Dict mapping from frames to path. e.g.,
+        #! frame_info (dict): Dict mapping from frames to path. e.g.,
             'Skiing/v_Skiing_g18_c02': ('data/ucf101/rawframes/Skiing/v_Skiing_g18_c02', 0, 0).  # noqa: E501
         shuffle (bool): Whether to shuffle the file list.
 
@@ -155,7 +156,6 @@ def build_file_list(splits, frame_info, shuffle=False):
             random.shuffle(rgb_list)
             random.shuffle(flow_list)
         return rgb_list, flow_list
-
     train_rgb_list, train_flow_list = build_list(splits[0])
     test_rgb_list, test_flow_list = build_list(splits[1])
     return (train_rgb_list, test_rgb_list), (train_flow_list, test_flow_list)
@@ -191,7 +191,6 @@ def main():
             frame_info[osp.splitext(video_path)[0]] = (video_path, -1, -1)
     else:
         raise NotImplementedError('only rawframes and videos are supported')
-
     if args.dataset == 'ucf101':
         splits = parse_ucf101_splits(args.level)
     elif args.dataset == 'sthv1':
@@ -219,7 +218,6 @@ def main():
     assert len(splits) == args.num_split
 
     out_path = args.out_root_path + args.dataset
-
     if len(splits) > 1:
         for i, split in enumerate(splits):
             file_lists = build_file_list(
