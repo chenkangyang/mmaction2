@@ -12,7 +12,7 @@ import timm.data as tdata
 import torch
 
 from ..builder import PIPELINES
-from .formating import to_tensor
+from .formatting import to_tensor
 
 
 def _combine_quadruple(a, b):

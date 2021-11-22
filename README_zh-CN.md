@@ -43,10 +43,13 @@ MMAction2 是一款基于 PyTorch 的视频理解开源工具箱，是 [OpenMMLa
 
 ## 更新记录
 
-- (2021-10-12) 支持 **TorchServe**！目前可以使用 TorchServe 部署 MMAction2 中的动作识别模型。
-- (2021-09-11) 支持 **ST-GCN**，一种广泛使用的基于人体姿态与 GCN 的动作识别方法！
+- (2021-10-29) 支持基于 skeleton 模态和 rgb 模态的时空动作检测和行为识别 demo (demo/demo_video_structuralize.py)。
+- (2021-10-26) 在 NTU60 3d 关键点标注数据集上训练测试 **STGCN**, 可达到 84.61% (高于 [paper](https://www.aaai.org/ocs/index.php/AAAI/AAAI18/paper/viewPaper/17135) 中的 81.5%) 的识别准确率。
+- (2021-10-25) 提供将 NTU60 和 NTU120 的 3d 骨骼点数据转换成我们项目的格式的脚本(tools/data/skeleton/gen_ntu_rgbd_raw.py)。
+- (2021-10-25) 提供使用自定义数据集训练 PoseC3D 的 [教程](https://github.com/open-mmlab/mmaction2/blob/master/configs/skeleton/posec3d/custom_dataset_training.md)，此 PR 由用户 [bit-scientist](https://github.com/bit-scientist) 完成！
+- (2021-10-16) 在 UCF101, HMDB51 上支持 **PoseC3D**，仅用 2D 关键点就可分别达到 87.0% 和 69.3% 的识别准确率。两数据集的预提取骨架特征可以公开下载。
 
-v0.19.0 版本已于 2021 年 10 月 7 日发布，可通过查阅 [更新日志](/docs/changelog.md) 了解更多细节以及发布历史
+v0.20.0 版本已于 2021 年 10 月 30 日发布，可通过查阅 [更新日志](/docs/changelog.md) 了解更多细节以及发布历史
 
 ## 安装
 
@@ -161,7 +164,7 @@ MMAction2 将跟进学界的最新进展，并支持更多算法和框架。如�
     <td><a href="https://github.com/open-mmlab/mmaction2/blob/master/tools/data/omnisource/README_zh-CN.md">OmniSource</a> (<a href="https://kennymckormick.github.io/omnisource/">主页</a>) (ECCV'2020)</td>
   </tr>
   <tr>
-    <td><a href="https://github.com/open-mmlab/mmaction2/blob/master/tools/data/gym/README_zh-CN.md">FineGYM</a> (<a href="ttps://sdolivia.github.io/FineGym/">主页</a>) (CVPR'2020)</td>
+    <td><a href="https://github.com/open-mmlab/mmaction2/blob/master/tools/data/gym/README_zh-CN.md">FineGYM</a> (<a href="https://sdolivia.github.io/FineGym/">主页</a>) (CVPR'2020)</td>
     <td></td>
     <td></td>
     <td></td>
@@ -190,8 +193,8 @@ MMAction2 将跟进学界的最新进展，并支持更多算法和框架。如�
   <tr>
     <td><a href="https://github.com/open-mmlab/mmaction2/blob/master/tools/data/skeleton/README.md">PoseC3D-FineGYM</a> (<a href="https://kennymckormick.github.io/posec3d/">主页</a>) (ArXiv'2021)</td>
     <td><a href="https://github.com/open-mmlab/mmaction2/blob/master/tools/data/skeleton/README.md">PoseC3D-NTURGB+D</a> (<a href="https://kennymckormick.github.io/posec3d/">主页</a>) (ArXiv'2021)</td>
-    <td></td>
-    <td></td>
+    <td><a href="https://github.com/open-mmlab/mmaction2/blob/master/tools/data/skeleton/README.md">PoseC3D-UCF101</a> (<a href="https://kennymckormick.github.io/posec3d/">主页</a>) (ArXiv'2021)</td>
+    <td><a href="https://github.com/open-mmlab/mmaction2/blob/master/tools/data/skeleton/README.md">PoseC3D-HMDB51</a> (<a href="https://kennymckormick.github.io/posec3d/">主页</a>) (ArXiv'2021)</td>
   </tr>
 </table>
 
@@ -249,16 +252,17 @@ MMAction2 是一款由不同学校和公司共同贡献的开源项目。我们�
 
 - [MMCV](https://github.com/open-mmlab/mmcv): OpenMMLab 计算机视觉基础库
 - [MIM](https://github.com/open-mmlab/mim): MIM 是 OpenMMlab 项目、算法、模型的统一入口
+- [MMAction2](https://github.com/open-mmlab/mmaction2): OpenMMLab 新一代视频理解工具箱与测试基准
 - [MMClassification](https://github.com/open-mmlab/mmclassification): OpenMMLab 图像分类工具箱与测试基准
 - [MMDetection](https://github.com/open-mmlab/mmdetection): OpenMMLab 检测工具箱与测试基准
 - [MMDetection3D](https://github.com/open-mmlab/mmdetection3d): OpenMMLab 新一代通用3D目标检测平台
-- [MMSegmentation](https://github.com/open-mmlab/mmsegmentation): OpenMMLab 语义分割工具箱与测试基准
-- [MMAction2](https://github.com/open-mmlab/mmaction2): OpenMMLab 新一代视频理解工具箱与测试基准
-- [MMTracking](https://github.com/open-mmlab/mmtracking): OpenMMLab 一体化视频目标感知平台
-- [MMPose](https://github.com/open-mmlab/mmpose): OpenMMLab 姿态估计工具箱与测试基准
 - [MMEditing](https://github.com/open-mmlab/mmediting): OpenMMLab 图像视频编辑工具箱
-- [MMOCR](https://github.com/open-mmlab/mmocr): OpenMMLab 全流程文字检测识别理解工具包
+- [MMFlow](https://github.com/open-mmlab/mmflow): OpenMMLab 光流估计工具箱
 - [MMGeneration](https://github.com/open-mmlab/mmgeneration): OpenMMLab 图片视频生成模型工具箱
+- [MMOCR](https://github.com/open-mmlab/mmocr): OpenMMLab 全流程文字检测识别理解工具包
+- [MMPose](https://github.com/open-mmlab/mmpose): OpenMMLab 姿态估计工具箱与测试基准
+- [MMSegmentation](https://github.com/open-mmlab/mmsegmentation): OpenMMLab 语义分割工具箱与测试基准
+- [MMTracking](https://github.com/open-mmlab/mmtracking): OpenMMLab 一体化视频目标感知平台
 
 ## 欢迎加入 OpenMMLab 社区
 
